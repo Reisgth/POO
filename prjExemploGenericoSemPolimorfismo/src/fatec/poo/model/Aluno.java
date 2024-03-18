@@ -1,8 +1,10 @@
 package fatec.poo.model;
+
 /**
  * @author GustavoReis
  */
-public class Aluno extends Pessoa{
+public class Aluno extends Pessoa {
+
     private int regEscolar;
     private double mensalidade;
 
@@ -14,7 +16,7 @@ public class Aluno extends Pessoa{
     public void setMensalidade(int m) {
         mensalidade = m;
     }
-    
+
     public int getRegEscolar() {
         return regEscolar;
     }

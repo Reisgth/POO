@@ -6,18 +6,18 @@ package fatec.poo.model;
 public class Pessoa {
 
     private String nome;
-    private String dataNascimento;
+    private String telefone;
 
-    public Pessoa(String n, String dn) {
+    public Pessoa(String n, String t) {
         nome = n;
-        dataNascimento = dn;
+        telefone = t;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getDataNascimento() {
-        return dataNascimento;
+    public String getTelefone() {
+        return telefone;
     }
 }
