@@ -7,11 +7,10 @@ public abstract class Funcionario {
     private int registro;
     private String nome, dtAdmissao, cargo;
     
-    public Funcionario(int r, String n, String dtAdm, String c){
+    public Funcionario(int r, String n, String dtAdm){
         registro = r;
         nome = n;
         dtAdmissao = dtAdm;
-        cargo = c;
     }
     
     public abstract double calcSalBruto();
@@ -24,6 +23,15 @@ public abstract class Funcionario {
         return calcSalBruto() - calcDesconto();
     }
 
+    // Inserir via setCargo, evitando a refatoração que seria incluindo no construtor.
+    public void setCargo(String c) {
+        cargo = c;
+    }
+       
+    public String getCargo() {
+        return cargo;
+    }
+
     public int getRegistro() {
         return registro;
     }
@@ -34,9 +42,5 @@ public abstract class Funcionario {
 
     public String getDtAdmissao() {
         return dtAdmissao;
-    }
-    
-    public String getCargo() {
-        return cargo;
     }
 }
