@@ -34,13 +34,13 @@ public class FuncionarioComissionado extends Funcionario {
 
     @Override
     public double calcSalBruto() {
-        return salBase + (taxaComissao * totalVendas);
+        return salBase + ((taxaComissao/100) * totalVendas);
     }
     
     public double calcGratificacao() {
-        if (totalVendas < 5000) {
+        if (totalVendas <= 5000) {
             return 0;
-        } else if (totalVendas < 10000) {
+        } else if (totalVendas <= 10000) {
             return (calcSalBruto() * 0.03);
         } else {
             return (calcSalBruto() * 0.05);
