@@ -25,7 +25,7 @@ public abstract class Pessoa {
         return totalCompras;
     }
     
-    public abstract double calcBonus(int val);
+    public abstract double calcBonus(int anoAtual);
     
     public void addCompra(double buy){
         totalCompras += buy;
