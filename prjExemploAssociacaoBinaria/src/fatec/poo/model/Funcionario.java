@@ -9,7 +9,11 @@ public abstract class Funcionario {
     private String dtAdmissao;
     private String cargo;
     
-    private Departamento departamento; //Definição da multiplicidade 1 (um funcionário está associado a um departamento)
+    //Definição da multiplicidade 1 (um funcionário está associado a um departamento)
+    private Departamento departamento;
+    
+    //Definição da multiplicidade 1(Funcionário associado a projeto)
+    private Projeto projeto;
 
     public Funcionario(int r, String n, String dtAdm) {
         registro = r;
@@ -45,6 +49,16 @@ public abstract class Funcionario {
     //Esse metodo tem como parâmetro de entrada o endereço de um objeto da classe departamento
     public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
+    }
+    
+    // Retorna o endereço de um objeto da classe projeto
+    public Projeto getProjeto() {
+        return projeto;
+    }
+    
+    //Parâmetro de entrada o endereço de um objeto da classe projeto
+    public void setProjeto(Projeto projeto) {
+        this.projeto = projeto;
     }
     
     //Método abstrato
