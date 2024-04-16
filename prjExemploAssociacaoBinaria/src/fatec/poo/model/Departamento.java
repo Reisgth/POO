@@ -33,13 +33,15 @@ public class Departamento {
     }
     
     public void listarFuncionarios () {
-        System.out.println("\nSigla: " + sigla);
-        System.out.println("Nome: " + nome);
-        System.out.println("Qntd func: " + numFunc);
+        System.out.println("\nSigla:      " + sigla);
+        System.out.println("Nome:       " + nome);
+        System.out.println("Qntd func:  " + numFunc);
         
         System.out.println("\nRegistro\tNome\t\tCargo");
         for(int i=0; i<numFunc; i++){
-            System.out.println(funcionarios[i].getRegistro() + "\t\t" + funcionarios[i].getNome() + "\t" + funcionarios[i].getCargo());
+            System.out.println(funcionarios[i].getRegistro() + "\t\t" + 
+                               funcionarios[i].getNome() + "\t" + 
+                               funcionarios[i].getCargo());
         }
     }
 }

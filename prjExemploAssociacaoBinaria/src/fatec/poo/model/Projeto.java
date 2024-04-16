@@ -41,18 +41,19 @@ public class Projeto {
         return dtTermino;
     }
     
-    //Parametro de entrada eh um objeto da classe de funcionario
+    //Parametro de entrada eh um objeto da classe de funcionario, qualquer que
+    //seja, devido ao apontamento ser à superclasse
     public void addFuncionario(Funcionario f) {
         funcionarios[numFunc] = f;
         numFunc++;
     }
     
     public void listarFuncionario() {
-        System.out.println("\n\nCodigo:          " + codigo);
-        System.out.println("Descricao:           " + descricao);
-        System.out.println("Inicio:              " + dtInicio);
-        System.out.println("Termino:             " + dtTermino);
-        System.out.println("Qtde Funcionarios:   " + numFunc);
+        System.out.println("\n\nCodigo             " + codigo);
+        System.out.println("Descricao:         " + descricao);
+        System.out.println("Inicio:            " + dtInicio);
+        System.out.println("Termino:           " + dtTermino);
+        System.out.println("Qtde Funcionarios: " + numFunc);
         
         System.out.println("\nRegistro\tNome\t\t\tCargo\t\t\tDepartamento");
         for(int i=0; i<numFunc; i++){
