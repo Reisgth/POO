@@ -3,6 +3,7 @@ import fatec.poo.model.PedidoCompra;
 import fatec.poo.model.PessoaFisica;
 import fatec.poo.model.PessoaJuridica;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -20,7 +21,7 @@ public class Aplic {
         DecimalFormat df = new DecimalFormat("#,##0.00");
         
         // Matriz com possibilidade de armazenar 10 pedidos
-        PedidoCompra[] cadPedido = new PedidoCompra[10];
+        ArrayList<PedidoCompra> cadPedido = new ArrayList<PedidoCompra>();
         
         // Entrada de dados das pessoas cadastrados
         System.out.print("Entre com o cpf: ");
@@ -53,30 +54,30 @@ public class Aplic {
         pj1.setTaxaIncentivo(entrada.nextDouble());
         
         // Instanciando 10 objetos da classe pedidoCompra
-        for(int i=0; i<10; i++){
+        for(int i=0; i<cadPedido.size(); i++){
             System.out.println("Digite o numero do pedido: ");
             numeroPedido = entrada.nextInt();
             
-            cadPedido[i] = new PedidoCompra(numeroPedido);
-            
+            cadPedido.add(new PedidoCompra(numeroPedido));
+                        
             System.out.println("Digite a data do pedido (dd/mm/aaaa): ");
-            cadPedido[i].setDataPedido(entrada.next());
+            cadPedido.get(i).setDataPedido(entrada.next());
             
             System.out.println("Digite o valor do pedido: ");
-            cadPedido[i].setValor(entrada.nextDouble());
+            cadPedido.get(i).setValor(entrada.nextDouble());
             
             System.out.println("1-Pessoa Física  2-Pessoa Juridica: ");
             int opcao = entrada.nextInt();
             if (opcao == 1){
                 //Efetivando a associação binária bidirecional
                 //entre objeto PessoaFisica e o objeto PedidoCompra
-                pf1.addPedidoCompra(cadPedido[i]); //multiplicidade 1..*
-                cadPedido[i].setPessoa(pf1);            
+                pf1.addPedidoCompra(cadPedido.get(i)); //multiplicidade 1..*
+                cadPedido.get(i).setPessoa(pf1);            
             }else{
                 //Efetivando a associação binária bidirecional
                 //entre objeto PessoaJuridica e o objeto PedidoCompra
-                pj1.addPedidoCompra(cadPedido[i]); 
-                cadPedido[i].setPessoa(pj1);   
+                pj1.addPedidoCompra(cadPedido.get(i)); 
+                cadPedido.get(i).setPessoa(pj1);   
             }
         }
         

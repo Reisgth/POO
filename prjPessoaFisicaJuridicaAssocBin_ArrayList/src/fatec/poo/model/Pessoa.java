@@ -1,5 +1,7 @@
 package fatec.poo.model;
 
+import java.util.ArrayList;
+
 /**
  * @author Gustavo Reis
  */
@@ -8,7 +10,7 @@ public abstract class Pessoa {
     private int anoInscricao;
     private double totalCompras;
     
-    private PedidoCompra[] pedidos; //Multiplicidade 1..*
+    private ArrayList<PedidoCompra> pedidos; //Multiplicidade 1..*
     private int numPed;
 
     public Pessoa(String nome, int anoInscricao) {
@@ -16,16 +18,15 @@ public abstract class Pessoa {
         this.anoInscricao = anoInscricao;
         this.totalCompras = 0;
         
-        pedidos = new PedidoCompra[10];
+        pedidos = new ArrayList<PedidoCompra>();
         numPed = 0;
     }
     
     public abstract double calcBonus(int anoAtual);
     
     public void addPedidoCompra(PedidoCompra pc){
-        pedidos[numPed] = pc;
+        pedidos.add(pc);
         totalCompras += pc.getValor();
-        numPed++;
     }
 
     public void setNome(String nome) {

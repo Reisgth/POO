@@ -1,6 +1,8 @@
 
 package fatec.poo.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Dimas
@@ -11,13 +13,13 @@ public class Projeto {
     private String descricao;
     private String dtInicio;
     private String dtTermino;
-    private Funcionario[] funcionarios; //multiplicidade 1..*
+    private ArrayList<Funcionario> funcionarios; //multiplicidade 1..*
     private int numFunc;
 
     public Projeto(int codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
-        funcionarios = new Funcionario[10];
+        funcionarios = new ArrayList<Funcionario>();
         numFunc = 0;
     }
 
@@ -45,8 +47,8 @@ public class Projeto {
         this.dtTermino = dtTermino;
     }
     public void addFuncionario(Funcionario f){ 
-        funcionarios[numFunc] = f;
-	numFunc++;
+        funcionarios.add(f);
+        
         //estabelecendo a associação binária
        //entre 1 objeto da classe Funcionario
        //com um objeto da classe Projeto
@@ -57,14 +59,14 @@ public class Projeto {
         System.out.println("Descrição: " + descricao);
         System.out.println("Data de Inicio: " + dtInicio);
         System.out.println("Data de termino: " + dtTermino);
-        System.out.println("Qtde. Funcionários: " + numFunc);
+        System.out.println("Qtde. Funcionários: " + funcionarios.size());
         System.out.println("\nRegistro\t\tNome\t\t\tCargo\t\tDepartamento");
         
-        for(int x =0; x < numFunc;x++){
-            System.out.print(funcionarios[x].getRegistro());
-            System.out.print("\t\t" + funcionarios[x].getNome());
-            System.out.print("\t\t" + funcionarios[x].getCargo());                        
-            System.out.println("\t\t" + funcionarios[x].getDepartamento().getNome());
+        for(int x =0; x < funcionarios.size() ;x++){
+            System.out.print(funcionarios.get(x).getRegistro());
+            System.out.print("\t\t" + funcionarios.get(x).getNome());
+            System.out.print("\t\t" + funcionarios.get(x).getCargo());                        
+            System.out.println("\t\t" + funcionarios.get(x).getDepartamento().getNome());
         }
     }
     
