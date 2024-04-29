@@ -16,8 +16,8 @@ public class Aluno extends Pessoa {
         this.ra = ra;
     }
 
-    public void setRa(String ra) {
-        this.ra = ra;
+    public void setEscolaridade(String escolaridade) {
+        this.escolaridade = escolaridade;
     }
 
     public String getRa() {

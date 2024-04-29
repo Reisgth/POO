@@ -7,7 +7,7 @@ package fatec.poo.model;
 public class Pessoa {
     private String nome, dtNascimento, endereco;
     
-    public Pessoa(String nom) {
+    public Pessoa(String nome) {
         this.nome = nome;
     }
 

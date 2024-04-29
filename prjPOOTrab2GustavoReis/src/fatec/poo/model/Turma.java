@@ -16,7 +16,6 @@ public class Turma {
     // Uma turma possui várias matriculas
     private ArrayList<Matricula> matriculas;
     
-    
     // Definindo a multiplicidade 1 com curso
     // Uma turma possui um curso
     private Curso curso;
@@ -30,6 +29,7 @@ public class Turma {
 
     public void addMatricula(Matricula m){
         matriculas.add(m);
+        m.setTurma(this);
     }
     
     public void setQtdeVagas(int qtdeVagas) {
@@ -45,11 +45,29 @@ public class Turma {
     }
     
     public int calcQtdeAprovados() {
-        return 0;
+        int qtdeAprovados = 0;
+        
+        // Iniciando a verificação de cada aluno matriculado na turma
+        for(int i=0;i<matriculas.size();i++){
+            // Verificando se o aluno matriculado possui média maior ou igual a 5
+            if(matriculas.get(i).getMedia() >= 5){
+                // Cada dia de falta equivale a 4 faltas
+                // Após levar em consideração que o aluno precisa de pelo menos 60%
+                // de presença para aprovação, verificamos se o numero de faltas dele
+                // é menor do que 40% da carga horário do curso
+                if((matriculas.get(i).getQtdeFaltas()) * 4 < (curso.getCargaHoraria() * (40/100))){
+                    qtdeAprovados+=1;
+                }
+            }
+        }
+        
+        return qtdeAprovados;
     }
     
     public int calcQtdeReprovados() {
-        return 0;
+        // Para o calculo de aprovados fazemos uma subtração do total de alunos
+        // matriculados com os aprovados, sobrando apenas aqueles que reprovaram
+        return matriculas.size() - calcQtdeAprovados();
     }
     
     public Instrutor getInstrutor(){
@@ -68,5 +86,30 @@ public class Turma {
         this.curso = curso;
     }
     
-    
+    // Metodo solicitado para exibição das informações cadastradas dos alunos
+    // e suas matriculas em uma respctiva turma de um curso
+    public void listarAlunos(){
+        System.out.println("Relacao Alunos da Turma");
+        
+        System.out.print("Sigla do curso: " + this.getCurso().getSigla());
+        System.out.println("Nome do curso: " + this.getCurso().getDescricao());
+        
+        System.out.println("Sigla da turma: " + this.getCodigo());
+        
+        System.out.println("Nome do Instrutor: " + this.getInstrutor().getNome());
+        
+        System.out.print("Nome do Aluno" + "\t\t");
+        System.out.print("Qtde. Faltas" + "\t\t");
+        System.out.print("Medio" + "\t\t");
+        System.out.print("Situacao");
+        for(int i=0; i<matriculas.size(); i++){
+            System.out.print(matriculas.get(i).getAluno().getNome() + "\t\t");
+            System.out.print(matriculas.get(i).getQtdeFaltas() + "\t\t");
+            System.out.print(matriculas.get(i).getMedia() + "\t\t");
+            if(matriculas.get(i).getMedia() > 5)
+                System.out.println("Aprovado");
+            else
+                System.out.println("Reprovado");
+        }
+    } 
 }

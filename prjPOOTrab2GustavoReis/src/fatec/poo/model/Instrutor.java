@@ -14,7 +14,7 @@ public class Instrutor extends Pessoa {
     // Um instrutor tem várias turmas
     private ArrayList<Turma> turmas;
     
-    public Instrutor (String nome, int codigo){
+    public Instrutor (int codigo, String nome){
         super(nome);
         this.codigo = codigo;
         
