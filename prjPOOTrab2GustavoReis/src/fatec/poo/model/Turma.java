@@ -51,11 +51,10 @@ public class Turma {
         for(int i=0;i<matriculas.size();i++){
             // Verificando se o aluno matriculado possui média maior ou igual a 5
             if(matriculas.get(i).getMedia() >= 5){
-                // Cada dia de falta equivale a 4 faltas
                 // Após levar em consideração que o aluno precisa de pelo menos 60%
                 // de presença para aprovação, verificamos se o numero de faltas dele
                 // é menor do que 40% da carga horário do curso
-                if((matriculas.get(i).getQtdeFaltas()) * 4 < (curso.getCargaHoraria() * (40/100))){
+                if((matriculas.get(i).getQtdeFaltas()) <= curso.getCargaHoraria() * 0.4){
                     qtdeAprovados+=1;
                 }
             }
@@ -74,7 +73,7 @@ public class Turma {
         return instrutor;
     }
 
-    public void setInstrutor(Instrutor i) {
+    public void setInstrutor(Instrutor instrutor) {
         this.instrutor = instrutor;
     }
     
@@ -89,19 +88,19 @@ public class Turma {
     // Metodo solicitado para exibição das informações cadastradas dos alunos
     // e suas matriculas em uma respctiva turma de um curso
     public void listarAlunos(){
-        System.out.println("Relacao Alunos da Turma");
+        System.out.println("\n\n\n\nRelacao Alunos da Turma");
         
-        System.out.print("Sigla do curso: " + this.getCurso().getSigla());
+        System.out.print("Sigla do curso: " + this.getCurso().getSigla() + "\t\t");
         System.out.println("Nome do curso: " + this.getCurso().getDescricao());
         
         System.out.println("Sigla da turma: " + this.getCodigo());
         
         System.out.println("Nome do Instrutor: " + this.getInstrutor().getNome());
         
-        System.out.print("Nome do Aluno" + "\t\t");
-        System.out.print("Qtde. Faltas" + "\t\t");
-        System.out.print("Medio" + "\t\t");
-        System.out.print("Situacao");
+        System.out.print("Nome do Aluno" + "\t");
+        System.out.print("Qtde. Faltas" + "\t");
+        System.out.print("Media" + "\t\t");
+        System.out.println("Situacao");
         for(int i=0; i<matriculas.size(); i++){
             System.out.print(matriculas.get(i).getAluno().getNome() + "\t\t");
             System.out.print(matriculas.get(i).getQtdeFaltas() + "\t\t");
@@ -111,5 +110,8 @@ public class Turma {
             else
                 System.out.println("Reprovado");
         }
-    } 
+        System.out.println("\nQtde. de Alunos:                " + matriculas.size());
+        System.out.println("Qtde. de Alunos aprovados:      " + this.calcQtdeAprovados());
+        System.out.println("Qtde. de Alunos reprovados:     " + this.calcQtdeReprovados() );
+     } 
 }

@@ -45,4 +45,9 @@ public class Instrutor extends Pessoa {
         turmas.add(t);
         t.setInstrutor(this);
     }
+
+    public ArrayList<Turma> getTurmas() {
+        return turmas;
+    }
+
 }
