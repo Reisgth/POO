@@ -1,12 +1,12 @@
 /**
  * @author GustavoReis
  */
-public class GuiMoeda_1 extends javax.swing.JFrame {
+public class GuiMoeda_2 extends javax.swing.JFrame {
 
     /**
      * Creates new form GuiMoeda_1
      */
-    public GuiMoeda_1() {
+    public GuiMoeda_2() {
         initComponents();
     }
 
@@ -22,57 +22,18 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
         btgrpMoedas = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtValorReal = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        rdbDolar = new javax.swing.JRadioButton();
-        rdbLibraEsterlina = new javax.swing.JRadioButton();
-        rdbEuro = new javax.swing.JRadioButton();
         btnCalcular = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         lblValorConvertido = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        cbxMoedas = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gui Conversão de Moedas");
 
         jLabel1.setText("Valor em R$");
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Moedas"));
-
-        btgrpMoedas.add(rdbDolar);
-        rdbDolar.setSelected(true);
-        rdbDolar.setText("Dolar");
-
-        btgrpMoedas.add(rdbLibraEsterlina);
-        rdbLibraEsterlina.setText("Libra");
-
-        btgrpMoedas.add(rdbEuro);
-        rdbEuro.setText("Euro");
-        rdbEuro.setToolTipText("");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rdbDolar)
-                .addGap(18, 18, 18)
-                .addComponent(rdbEuro)
-                .addGap(18, 18, 18)
-                .addComponent(rdbLibraEsterlina)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdbDolar)
-                    .addComponent(rdbLibraEsterlina)
-                    .addComponent(rdbEuro))
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
 
         btnCalcular.setText("Calcular");
         btnCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -96,9 +57,13 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
             }
         });
 
-        lblValorConvertido.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        lblValorConvertido.setBorder(new javax.swing.border.SoftBevelBorder(1));
 
         jLabel3.setText("Valor Convertido");
+
+        cbxMoedas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dolar", "Euro", "Libra Esterlina" }));
+
+        jLabel2.setText("Moedas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,12 +82,15 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(27, 27, 27)
                         .addComponent(lblValorConvertido, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
                         .addGap(51, 51, 51)
-                        .addComponent(txtValorReal, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxMoedas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtValorReal, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCalcular, btnLimpar, btnSair});
@@ -134,18 +102,20 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtValorReal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxMoedas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(lblValorConvertido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCalcular)
                     .addComponent(btnLimpar)
                     .addComponent(btnSair))
-                .addGap(32, 32, 32))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCalcular, btnLimpar, btnSair});
@@ -155,8 +125,10 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtValorReal.setText(null);
-        rdbDolar.setSelected(true);
+        cbxMoedas.setSelectedIndex(0);
         lblValorConvertido.setText(null);
+        
+        txtValorReal.requestFocus();
         
         btnCalcular.setEnabled(true);
         btnLimpar.setEnabled(false);
@@ -168,15 +140,19 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         double valReal, valConvertido;
+        Double matMoedas[] = {5.1, 5.49, 6.40};
         
         valReal = Double.parseDouble(txtValorReal.getText());
         
-        if(rdbDolar.isSelected())
+        /*if(cbxMoedas.getSelectedIndex() == 0)
             valConvertido = valReal / 5.1;
-        else if (rdbEuro.isSelected())
+        else if (cbxMoedas.getSelectedIndex() == 1)
             valConvertido = valReal / 5.49;
         else 
             valConvertido = valReal / 6.40;
+        */
+        
+        valConvertido = valReal / matMoedas[cbxMoedas.getSelectedIndex()];
         
         lblValorConvertido.setText(String.valueOf(valConvertido));
         
@@ -189,13 +165,11 @@ public class GuiMoeda_1 extends javax.swing.JFrame {
     private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSair;
+    private javax.swing.JComboBox<String> cbxMoedas;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblValorConvertido;
-    private javax.swing.JRadioButton rdbDolar;
-    private javax.swing.JRadioButton rdbEuro;
-    private javax.swing.JRadioButton rdbLibraEsterlina;
     private javax.swing.JTextField txtValorReal;
     // End of variables declaration//GEN-END:variables
 }
