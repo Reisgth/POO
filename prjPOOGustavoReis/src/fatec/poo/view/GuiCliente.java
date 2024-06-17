@@ -3,6 +3,9 @@ package fatec.poo.view;
 import fatec.poo.control.DaoCliente;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Cliente;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Gustavo Reis
@@ -71,7 +74,7 @@ public class GuiCliente extends javax.swing.JFrame {
 
         jLabel9.setText("Limite Disponivel");
 
-        lblLimDisp.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        lblLimDisp.setBorder(new javax.swing.border.SoftBevelBorder(1));
 
         txtNome.setEnabled(false);
 
@@ -100,13 +103,28 @@ public class GuiCliente extends javax.swing.JFrame {
 
         btnIncluir.setText("Incluir");
         btnIncluir.setEnabled(false);
+        btnIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncluirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setText("Alterar");
         btnAlterar.setEnabled(false);
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
         btnExcluir.setToolTipText("");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +260,7 @@ public class GuiCliente extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         cliente = null;
-        cliente = daoCliente.consultar(txtCpf.getText());
+        //cliente = daoCliente.consultar(txtCpf.getText());
 
         if (cliente == null) {//não encontrou o objeto na BD
 
@@ -291,6 +309,153 @@ public class GuiCliente extends javax.swing.JFrame {
             btnExcluir.setEnabled(true);
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
+        cliente = null;
+        
+            cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
+      
+            cliente.setEndereco(txtEndereco.getText());
+            cliente.setCidade(txtCidade.getText());
+            cliente.setDdd(txtDdd.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setCep(txtCep.getText());
+            //cbxUf.getText();
+            
+            daoCliente.inserir(cliente);
+
+            txtNome.setText("");
+            txtEndereco.setText("");
+            txtCidade.setText("");
+            txtDdd.setText("");
+            txtTelefone.setText("");
+            txtLimCred.setText("");
+            txtCep.setText("");
+            //cbxUf.setText(cliente.getEndereco());
+            txtCpf.requestFocus();
+            
+            txtCpf.setEnabled(true);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtCidade.setEnabled(false);
+            txtDdd.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtLimCred.setEnabled(false);
+            txtCep.setEnabled(false);
+            cbxUf.setEnabled(false);
+            
+            btnConsultar.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnIncluir.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            
+            System.out.println(cliente.getCpf());
+            System.out.println(cliente.getNome());
+            System.out.println(cliente.getEndereco());
+            System.out.println(cliente.getCidade());
+            System.out.println(cliente.getDdd());
+            System.out.println(cliente.getTelefone());
+            System.out.println(cliente.getLimiteCredito());
+            System.out.println(cliente.getCep());
+    }//GEN-LAST:event_btnIncluirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        cliente = null;
+        
+            cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
+            cliente.setEndereco(txtEndereco.getText());
+            cliente.setCidade(txtCidade.getText());
+            cliente.setDdd(txtDdd.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setCep(txtCep.getText());
+            //cbxUf.getText();
+            
+            daoCliente.alterar(cliente);
+
+            txtNome.setText("");
+            txtEndereco.setText("");
+            txtCidade.setText("");
+            txtDdd.setText("");
+            txtTelefone.setText("");
+            txtLimCred.setText("");
+            txtCep.setText("");
+            //cbxUf.setText(cliente.getEndereco());
+            txtCpf.requestFocus();
+            
+            txtCpf.setEnabled(true);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtCidade.setEnabled(false);
+            txtDdd.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtLimCred.setEnabled(false);
+            txtCep.setEnabled(false);
+            cbxUf.setEnabled(false);
+            
+            btnConsultar.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnIncluir.setEnabled(false);
+            btnExcluir.setEnabled(false);
+                     
+            System.out.println(cliente.getCpf());
+            System.out.println(cliente.getNome());
+            System.out.println(cliente.getEndereco());
+            System.out.println(cliente.getCidade());
+            System.out.println(cliente.getDdd());
+            System.out.println(cliente.getTelefone());
+            System.out.println(cliente.getLimiteCredito());
+            System.out.println(cliente.getCep());
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        cliente = null;
+        
+            cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
+            cliente.setEndereco(txtEndereco.getText());
+            cliente.setCidade(txtCidade.getText());
+            cliente.setDdd(txtDdd.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setCep(txtCep.getText());
+            //cbxUf.getText();
+
+            daoCliente.excluir(cliente);
+
+            txtNome.setText("");
+            txtEndereco.setText("");
+            txtCidade.setText("");
+            txtDdd.setText("");
+            txtTelefone.setText("");
+            txtLimCred.setText("");
+            txtCep.setText("");
+            //cbxUf.setText(cliente.getEndereco());
+            txtCpf.requestFocus();
+            
+            txtCpf.setEnabled(true);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtCidade.setEnabled(false);
+            txtDdd.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtLimCred.setEnabled(false);
+            txtCep.setEnabled(false);
+            cbxUf.setEnabled(false);
+            
+            btnConsultar.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnIncluir.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            
+            daoCliente.inserir(cliente);
+            
+            System.out.println(cliente.getCpf());
+            System.out.println(cliente.getNome());
+            System.out.println(cliente.getEndereco());
+            System.out.println(cliente.getCidade());
+            System.out.println(cliente.getDdd());
+            System.out.println(cliente.getTelefone());
+            System.out.println(cliente.getLimiteCredito());
+            System.out.println(cliente.getCep());
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
