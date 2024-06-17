@@ -32,6 +32,13 @@ public class DaoCliente {
                 cliente = new Cliente(  rs.getString("cpf"),
                                         rs.getString("nome"), 
                                         rs.getDouble("limiteCredito"));
+                
+                                        cliente.setEndereco(rs.getString("endereco"));
+                                        cliente.setCidade(rs.getString("cidade"));
+                                        cliente.setCep(rs.getString("cep"));
+                                        cliente.setDdd(rs.getString("ddd"));
+                                        cliente.setTelefone(rs.getString("telefone"));
+                                        cliente.setLimiteDisponivel(rs.getDouble("limiteDisponivel"));
             }
         }
         catch (SQLException ex) { 

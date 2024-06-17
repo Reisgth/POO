@@ -260,7 +260,11 @@ public class GuiCliente extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         cliente = null;
-        //cliente = daoCliente.consultar(txtCpf.getText());
+        try {
+            cliente = daoCliente.consultar(txtCpf.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(GuiCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (cliente == null) {//não encontrou o objeto na BD
 
@@ -282,13 +286,16 @@ public class GuiCliente extends javax.swing.JFrame {
             btnExcluir.setEnabled(true);
             
         } else { //encontrou o objeto na BD
+            
+            System.out.println(cliente.getEndereco());
             txtNome.setText(cliente.getNome());
             txtEndereco.setText(cliente.getEndereco());
-            txtCidade.setText(cliente.getEndereco());
-            txtDdd.setText(cliente.getEndereco());
-            txtTelefone.setText(cliente.getEndereco());
-            txtLimCred.setText(cliente.getEndereco());
-            txtCep.setText(cliente.getEndereco());
+            txtCidade.setText(cliente.getCidade());
+            txtDdd.setText(cliente.getDdd());
+            txtTelefone.setText(cliente.getTelefone());
+            txtLimCred.setText(Double.toString(cliente.getLimiteCredito()));
+            lblLimDisp.setText(Double.toString(cliente.getLimiteDisponivel()));
+            txtCep.setText(cliente.getCep());
             //cbxUf.setText(cliente.getEndereco());
             
             txtCpf.setEnabled(false);
@@ -324,6 +331,7 @@ public class GuiCliente extends javax.swing.JFrame {
             
             daoCliente.inserir(cliente);
 
+            txtCpf.setText("");
             txtNome.setText("");
             txtEndereco.setText("");
             txtCidade.setText("");
@@ -445,7 +453,7 @@ public class GuiCliente extends javax.swing.JFrame {
             btnIncluir.setEnabled(false);
             btnExcluir.setEnabled(false);
             
-            daoCliente.inserir(cliente);
+            daoCliente.excluir(cliente);
             
             System.out.println(cliente.getCpf());
             System.out.println(cliente.getNome());
