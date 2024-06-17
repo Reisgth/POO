@@ -1,5 +1,9 @@
 package fatec.poo.view;
 
+import fatec.poo.control.DaoCliente;
+import fatec.poo.control.PreparaConexao;
+import fatec.poo.model.Cliente;
+
 /**
  * @author Gustavo Reis
  */
@@ -40,6 +44,14 @@ public class GuiCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Cliente");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("CPF");
 
@@ -61,31 +73,40 @@ public class GuiCliente extends javax.swing.JFrame {
 
         lblLimDisp.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        txtNome.setEditable(false);
+        txtNome.setEnabled(false);
 
-        txtEndereco.setEditable(false);
+        txtEndereco.setEnabled(false);
 
-        txtCidade.setEditable(false);
+        txtCidade.setEnabled(false);
 
-        txtDdd.setEditable(false);
+        txtDdd.setEnabled(false);
 
-        txtTelefone.setEditable(false);
+        txtTelefone.setEnabled(false);
 
-        txtLimCred.setEditable(false);
+        txtLimCred.setEnabled(false);
 
-        txtCep.setEditable(false);
         txtCep.setToolTipText("");
+        txtCep.setEnabled(false);
 
         cbxUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxUf.setEnabled(false);
 
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnIncluir.setText("Incluir");
+        btnIncluir.setEnabled(false);
 
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
 
         btnExcluir.setText("Excluir");
         btnExcluir.setToolTipText("");
+        btnExcluir.setEnabled(false);
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -207,6 +228,70 @@ public class GuiCliente extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        prepCon = new PreparaConexao("GUSTAVOREIS", "BD123456");
+        prepCon.setDriver("oracle.jdbc.driver.OracleDriver");
+        prepCon.setConnectionString("jdbc:oracle:thin:@127.0.0.1:1521:xe");
+
+        daoCliente = new DaoCliente(prepCon.abrirConexao());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        prepCon.fecharConexao();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        cliente = null;
+        cliente = daoCliente.consultar(txtCpf.getText());
+
+        if (cliente == null) {//não encontrou o objeto na BD
+
+            txtCpf.setEnabled(false);
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);
+            txtCidade.setEnabled(true);
+            txtDdd.setEnabled(true);
+            txtTelefone.setEnabled(true);
+            txtLimCred.setEnabled(true);
+            txtCep.setEnabled(true);
+            cbxUf.setEnabled(true);
+
+            txtNome.requestFocus();
+
+            btnConsultar.setEnabled(false);
+            btnAlterar.setEnabled(true);
+            btnIncluir.setEnabled(true);
+            btnExcluir.setEnabled(true);
+            
+        } else { //encontrou o objeto na BD
+            txtNome.setText(cliente.getNome());
+            txtEndereco.setText(cliente.getEndereco());
+            txtCidade.setText(cliente.getEndereco());
+            txtDdd.setText(cliente.getEndereco());
+            txtTelefone.setText(cliente.getEndereco());
+            txtLimCred.setText(cliente.getEndereco());
+            txtCep.setText(cliente.getEndereco());
+            //cbxUf.setText(cliente.getEndereco());
+            
+            txtCpf.setEnabled(false);
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);
+            txtCidade.setEnabled(true);
+            txtDdd.setEnabled(true);
+            txtTelefone.setEnabled(true);
+            txtLimCred.setEnabled(true);
+            txtCep.setEnabled(true);
+            cbxUf.setEnabled(true);
+            
+            txtNome.requestFocus();
+
+            btnConsultar.setEnabled(false);
+            btnAlterar.setEnabled(true);
+            btnIncluir.setEnabled(false);
+            btnExcluir.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnConsultar;
@@ -233,4 +318,8 @@ public class GuiCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+
+    private PreparaConexao prepCon;
+    private DaoCliente daoCliente;
+    private Cliente cliente;
 }

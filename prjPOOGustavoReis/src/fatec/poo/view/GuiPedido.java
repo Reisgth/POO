@@ -46,22 +46,25 @@ public class GuiPedido extends javax.swing.JFrame {
 
         jLabel5.setText("CPF Vendedor");
 
-        txtDataPedido.setEditable(false);
+        txtDataPedido.setEnabled(false);
 
-        txtValPedido.setEditable(false);
+        txtValPedido.setEnabled(false);
 
-        txtCpfCli.setEditable(false);
+        txtCpfCli.setEnabled(false);
 
-        txtCpfVend.setEditable(false);
+        txtCpfVend.setEnabled(false);
 
         btnConsultar.setText("Consultar");
 
         btnIncluir.setText("Incluir");
+        btnIncluir.setEnabled(false);
 
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
 
         btnExcluir.setText("Excluir");
         btnExcluir.setToolTipText("");
+        btnExcluir.setEnabled(false);
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -75,8 +78,10 @@ public class GuiPedido extends javax.swing.JFrame {
         txtNomeVend.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         btnConsultarCliente.setText("Consultar");
+        btnConsultarCliente.setEnabled(false);
 
         btnConsultarVendedor.setText("Consultar");
+        btnConsultarVendedor.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -58,31 +58,37 @@ public class GuiVendedor extends javax.swing.JFrame {
 
         jLabel9.setText("Taxa de Comissão");
 
-        txtNome.setEditable(false);
+        txtNome.setEnabled(false);
 
-        txtEndereco.setEditable(false);
+        txtEndereco.setEnabled(false);
 
-        txtCidade.setEditable(false);
+        txtCidade.setEnabled(false);
 
         txtDdd.setEditable(false);
+        txtDdd.setEnabled(false);
 
         txtTelefone.setEditable(false);
+        txtTelefone.setEnabled(false);
 
-        txtSalBase.setEditable(false);
+        txtSalBase.setEnabled(false);
 
-        txtCep.setEditable(false);
         txtCep.setToolTipText("");
+        txtCep.setEnabled(false);
 
         cbxUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxUf.setEnabled(false);
 
         btnConsultar.setText("Consultar");
 
         btnIncluir.setText("Incluir");
+        btnIncluir.setEnabled(false);
 
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
 
         btnExcluir.setText("Excluir");
         btnExcluir.setToolTipText("");
+        btnExcluir.setEnabled(false);
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -92,6 +98,7 @@ public class GuiVendedor extends javax.swing.JFrame {
         });
 
         txtTaxaComissao.setEditable(false);
+        txtTaxaComissao.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,12 +186,13 @@ public class GuiVendedor extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(cbxUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDdd, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)
+                        .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
