@@ -52,6 +52,7 @@ public class DaoCliente {
         PreparedStatement ps;
         try {
             ps = conn.prepareStatement("INSERT INTO TB_CLIENTE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
+            
             ps.setString(1, cliente.getCpf());
             ps.setString(2, cliente.getNome());
             ps.setString(3, cliente.getEndereco());
