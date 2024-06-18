@@ -35,13 +35,13 @@ public class DaoCliente {
                                         rs.getString("nome"), 
                                         rs.getDouble("limiteCredito"));
                 
-                                        cliente.setEndereco(rs.getString("endereco"));
-                                        cliente.setCidade(rs.getString("cidade"));
-                                        cliente.setUf(rs.getString("uf"));
-                                        cliente.setCep(rs.getString("cep"));
-                                        cliente.setDdd(rs.getString("ddd"));
-                                        cliente.setTelefone(rs.getString("telefone"));
-                                        cliente.setLimiteDisponivel(rs.getDouble("limiteDisponivel"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setCidade(rs.getString("cidade"));
+                cliente.setUf(rs.getString("uf"));
+                cliente.setCep(rs.getString("cep"));
+                cliente.setDdd(rs.getString("ddd"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setLimiteDisponivel(rs.getDouble("limiteDisponivel"));
             }
         }
         catch (SQLException ex) { 
@@ -85,7 +85,8 @@ public class DaoCliente {
                                        "ddd = ?, " +
                                        "telefone = ?, " +
                                        "limiteCredito = ?, " +
-                                       "limiteDisponivel = ? ");
+                                       "limiteDisponivel = ?" +
+                                       "WHERE cpf = ?");
             
             ps.setString(1, cliente.getNome());
             ps.setString(2, cliente.getEndereco());
@@ -96,6 +97,7 @@ public class DaoCliente {
             ps.setString(7, cliente.getTelefone());
             ps.setDouble(8, cliente.getLimiteCredito());
             ps.setDouble(9, cliente.getLimiteDisponivel());
+            ps.setString(10, cliente.getCpf());
            
             ps.execute();
             

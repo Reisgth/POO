@@ -24,7 +24,7 @@ public class DaoVendedor {
                 
         System.out.println("{" + cpf + "}");
         try {
-            ps = conn.prepareStatement("SELECT * from tbl_vendedor where cpf = ?");
+            ps = conn.prepareStatement("SELECT * from tb_vendedor where cpf = ?");
             ps.setString(1, cpf);
             
             ResultSet rs = ps.executeQuery();
@@ -35,13 +35,13 @@ public class DaoVendedor {
                                            rs.getString("nome"), 
                                            rs.getDouble("salarioBase"));
                 
-                                        vendedor.setEndereco(rs.getString("endereco"));
-                                        vendedor.setCidade(rs.getString("cidade"));
-                                        vendedor.setUf(rs.getString("uf"));
-                                        vendedor.setCep(rs.getString("cep"));
-                                        vendedor.setDdd(rs.getString("ddd"));
-                                        vendedor.setTelefone(rs.getString("telefone"));
-                                        vendedor.setTaxaComissao(rs.getDouble("taxaComissao"));
+                vendedor.setEndereco(rs.getString("endereco"));
+                vendedor.setCidade(rs.getString("cidade"));
+                vendedor.setUf(rs.getString("uf"));
+                vendedor.setCep(rs.getString("cep"));
+                vendedor.setDdd(rs.getString("ddd"));
+                vendedor.setTelefone(rs.getString("telefone"));
+                vendedor.setTaxaComissao(rs.getDouble("taxaComissao"));
             }
         }
         catch (SQLException ex) { 
@@ -54,7 +54,7 @@ public class DaoVendedor {
     public void inserir(Vendedor vendedor) {
         PreparedStatement ps;
         try {
-            ps = conn.prepareStatement("INSERT INTO tbl_vendedor VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps = conn.prepareStatement("INSERT INTO tb_vendedor VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             ps.setString(1, vendedor.getCpf());
             ps.setString(2, vendedor.getNome());
@@ -77,7 +77,7 @@ public class DaoVendedor {
     public void alterar(Vendedor vendedor) {
         PreparedStatement ps;
         try {
-            ps = conn.prepareStatement("UPDATE tbl_vendedor set nome = ?, " +
+            ps = conn.prepareStatement("UPDATE tb_vendedor set nome = ?, " +
                                        "endereco = ?, " +
                                        "cidade = ?, " +
                                        "uf = ?, " +
@@ -85,7 +85,8 @@ public class DaoVendedor {
                                        "ddd = ?, " +
                                        "telefone = ?, " +
                                        "salarioBase = ?, " +
-                                       "taxaComissao = ? ");
+                                       "taxaComissao = ? " +
+                                       "WHERE cpf = ?");
             
             ps.setString(1, vendedor.getNome());
             ps.setString(2, vendedor.getEndereco());
@@ -96,6 +97,7 @@ public class DaoVendedor {
             ps.setString(7, vendedor.getTelefone());
             ps.setDouble(8, vendedor.getSalarioBase());
             ps.setDouble(9, vendedor.getTaxaComissao());
+            ps.setString(10, vendedor.getCpf());
            
             ps.execute();
             
@@ -107,7 +109,7 @@ public class DaoVendedor {
     public void excluir(Vendedor vendedor) {
         PreparedStatement ps;
         try {
-            ps = conn.prepareStatement("DELETE FROM tbl_vendedor where cpf = ?");
+            ps = conn.prepareStatement("DELETE FROM tb_vendedor where cpf = ?");
            
             ps.setString(1, vendedor.getCpf());
                       

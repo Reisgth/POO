@@ -247,9 +247,9 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        prepCon = new PreparaConexao("BD1821041", "BD1821041");
+        prepCon = new PreparaConexao("GUSTAVOREIS", "123456");
         prepCon.setDriver("oracle.jdbc.driver.OracleDriver");
-        prepCon.setConnectionString("jdbc:oracle:thin:@192.168.1.6:1521:xe");
+        prepCon.setConnectionString("jdbc:oracle:thin:@10.12.20.228:1521:xe");
 
         daoCliente = new DaoCliente(prepCon.abrirConexao());
     }//GEN-LAST:event_formWindowOpened
@@ -317,7 +317,6 @@ public class GuiCliente extends javax.swing.JFrame {
             cliente = null;
 
             cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
-      
             cliente.setEndereco(txtEndereco.getText());
             cliente.setCidade(txtCidade.getText());
             cliente.setDdd(txtDdd.getText());
@@ -327,7 +326,6 @@ public class GuiCliente extends javax.swing.JFrame {
             
             daoCliente.inserir(cliente);
              
-
             txtCpf.setText("");
             txtNome.setText("");
             txtEndereco.setText("");
@@ -358,15 +356,17 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIncluirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        cliente = null;
         
-            cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
+            cliente.setCpf(txtCpf.getText());
+            cliente.setNome(txtNome.getText());
             cliente.setEndereco(txtEndereco.getText());
             cliente.setCidade(txtCidade.getText());
             cliente.setDdd(txtDdd.getText());
             cliente.setTelefone(txtTelefone.getText());
             cliente.setCep(txtCep.getText());
             cliente.setUf((String)cbxUf.getSelectedItem());
+            cliente.setLimiteCredito(Double.parseDouble(txtLimCred.getText()));
+            cliente.setLimiteDisponivel(Double.parseDouble(lblLimDisp.getText()));
             
             daoCliente.alterar(cliente);
 
