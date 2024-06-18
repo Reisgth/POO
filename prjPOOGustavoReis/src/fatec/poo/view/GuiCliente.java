@@ -74,7 +74,7 @@ public class GuiCliente extends javax.swing.JFrame {
 
         jLabel9.setText("Limite Disponivel");
 
-        lblLimDisp.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        lblLimDisp.setBorder(new javax.swing.border.SoftBevelBorder(1));
 
         txtNome.setEnabled(false);
 
@@ -150,7 +150,7 @@ public class GuiCliente extends javax.swing.JFrame {
                         .addComponent(btnExcluir)
                         .addGap(18, 18, 18)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(45, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -247,9 +247,9 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        prepCon = new PreparaConexao("GUSTAVOREIS", "BD123456");
+        prepCon = new PreparaConexao("BD1821041", "BD1821041");
         prepCon.setDriver("oracle.jdbc.driver.OracleDriver");
-        prepCon.setConnectionString("jdbc:oracle:thin:@127.0.0.1:1521:xe");
+        prepCon.setConnectionString("jdbc:oracle:thin:@192.168.1.6:1521:xe");
 
         daoCliente = new DaoCliente(prepCon.abrirConexao());
     }//GEN-LAST:event_formWindowOpened
@@ -260,11 +260,8 @@ public class GuiCliente extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         cliente = null;
-        try {
-            cliente = daoCliente.consultar(txtCpf.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(GuiCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        cliente = daoCliente.consultar(txtCpf.getText());
 
         if (cliente == null) {//não encontrou o objeto na BD
 
@@ -281,9 +278,9 @@ public class GuiCliente extends javax.swing.JFrame {
             txtNome.requestFocus();
 
             btnConsultar.setEnabled(false);
-            btnAlterar.setEnabled(true);
+            btnAlterar.setEnabled(false);
             btnIncluir.setEnabled(true);
-            btnExcluir.setEnabled(true);
+            btnExcluir.setEnabled(false);
             
         } else { //encontrou o objeto na BD
             
@@ -295,7 +292,7 @@ public class GuiCliente extends javax.swing.JFrame {
             txtLimCred.setText(Double.toString(cliente.getLimiteCredito()));
             lblLimDisp.setText(Double.toString(cliente.getLimiteDisponivel()));
             txtCep.setText(cliente.getCep());
-            cbxUf.setSelectedIndex(Integer.parseInt(cliente.getEndereco()));
+            cbxUf.setSelectedItem(cliente.getUf());
             
             txtCpf.setEnabled(false);
             txtNome.setEnabled(true);
@@ -317,21 +314,19 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
-        cliente = null;
-        
-            if(txtCpf.getText() == null || txtNome.getText() == null || txtLimCred.getText() == null)
-                System.out.println("ERRO");
-            else        
-                cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
+            cliente = null;
+
+            cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
       
             cliente.setEndereco(txtEndereco.getText());
             cliente.setCidade(txtCidade.getText());
             cliente.setDdd(txtDdd.getText());
             cliente.setTelefone(txtTelefone.getText());
             cliente.setCep(txtCep.getText());
-            cliente.setUf(String.valueOf(cbxUf.getSelectedIndex()));
+            cliente.setUf((String)cbxUf.getSelectedItem());
             
             daoCliente.inserir(cliente);
+             
 
             txtCpf.setText("");
             txtNome.setText("");
@@ -342,6 +337,7 @@ public class GuiCliente extends javax.swing.JFrame {
             txtLimCred.setText("");
             txtCep.setText("");
             cbxUf.setSelectedIndex(0);
+            lblLimDisp.setText("");
             
             txtCpf.requestFocus();
             
@@ -359,16 +355,6 @@ public class GuiCliente extends javax.swing.JFrame {
             btnAlterar.setEnabled(false);
             btnIncluir.setEnabled(false);
             btnExcluir.setEnabled(false);
-            
-            System.out.println(cliente.getCpf());
-            System.out.println(cliente.getNome());
-            System.out.println(cliente.getEndereco());
-            System.out.println(cliente.getCidade());
-            System.out.println(cliente.getDdd());
-            System.out.println(cliente.getTelefone());
-            System.out.println(cliente.getLimiteCredito());
-            System.out.println(cliente.getCep());
-            System.out.println("UF: " + cliente.getUf());
     }//GEN-LAST:event_btnIncluirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -380,7 +366,7 @@ public class GuiCliente extends javax.swing.JFrame {
             cliente.setDdd(txtDdd.getText());
             cliente.setTelefone(txtTelefone.getText());
             cliente.setCep(txtCep.getText());
-            cliente.setUf(String.valueOf(cbxUf.getSelectedIndex()));
+            cliente.setUf((String)cbxUf.getSelectedItem());
             
             daoCliente.alterar(cliente);
 
@@ -392,10 +378,11 @@ public class GuiCliente extends javax.swing.JFrame {
             txtTelefone.setText("");
             txtLimCred.setText("");
             txtCep.setText("");
-            cliente.setUf(String.valueOf(cbxUf.getSelectedIndex()));
+            cbxUf.setSelectedIndex(0);
+            lblLimDisp.setText("");
             
             txtCpf.requestFocus();
-            
+                        
             txtCpf.setEnabled(true);
             txtNome.setEnabled(false);
             txtEndereco.setEnabled(false);
@@ -410,31 +397,13 @@ public class GuiCliente extends javax.swing.JFrame {
             btnAlterar.setEnabled(false);
             btnIncluir.setEnabled(false);
             btnExcluir.setEnabled(false);
-                     
-            System.out.println(cliente.getCpf());
-            System.out.println(cliente.getNome());
-            System.out.println(cliente.getEndereco());
-            System.out.println(cliente.getCidade());
-            System.out.println(cliente.getDdd());
-            System.out.println(cliente.getTelefone());
-            System.out.println(cliente.getLimiteCredito());
-            System.out.println(cliente.getCep());
-            System.out.println("UF: " + cliente.getUf());
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        cliente = null;
-        
-            cliente = new Cliente(txtCpf.getText(), txtNome.getText(), Double.parseDouble(txtLimCred.getText()));
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setCidade(txtCidade.getText());
-            cliente.setDdd(txtDdd.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            cliente.setCep(txtCep.getText());
-            cliente.setUf(String.valueOf(cbxUf.getSelectedIndex()));
-            
+                   
             daoCliente.excluir(cliente);
 
+            txtCpf.setText("");
             txtNome.setText("");
             txtEndereco.setText("");
             txtCidade.setText("");
@@ -443,6 +412,8 @@ public class GuiCliente extends javax.swing.JFrame {
             txtLimCred.setText("");
             txtCep.setText("");
             cbxUf.setSelectedIndex(0);
+            lblLimDisp.setText("");
+            
             txtCpf.requestFocus();
             
             txtCpf.setEnabled(true);
@@ -459,16 +430,6 @@ public class GuiCliente extends javax.swing.JFrame {
             btnAlterar.setEnabled(false);
             btnIncluir.setEnabled(false);
             btnExcluir.setEnabled(false);
-                        
-            System.out.println(cliente.getCpf());
-            System.out.println(cliente.getNome());
-            System.out.println(cliente.getEndereco());
-            System.out.println(cliente.getCidade());
-            System.out.println(cliente.getDdd());
-            System.out.println(cliente.getTelefone());
-            System.out.println(cliente.getLimiteCredito());
-            System.out.println(cliente.getCep());
-            System.out.println("UF: " + cliente.getUf());
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

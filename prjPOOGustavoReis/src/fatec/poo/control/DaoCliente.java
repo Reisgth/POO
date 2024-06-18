@@ -18,16 +18,18 @@ public class DaoCliente {
          this.conn = conn;
     }    
     
-    public Cliente consultar (String cpf) throws SQLException {
+    public Cliente consultar (String cpf) {
         Cliente cliente = null;     
         PreparedStatement ps;
                 
+        System.out.println("{" + cpf + "}");
         try {
             ps = conn.prepareStatement("SELECT * from tb_cliente where cpf = ?");
             ps.setString(1, cpf);
             
             ResultSet rs = ps.executeQuery();
             
+           
             if (rs.next() == true) {
                 cliente = new Cliente(  rs.getString("cpf"),
                                         rs.getString("nome"), 
@@ -35,6 +37,7 @@ public class DaoCliente {
                 
                                         cliente.setEndereco(rs.getString("endereco"));
                                         cliente.setCidade(rs.getString("cidade"));
+                                        cliente.setUf(rs.getString("uf"));
                                         cliente.setCep(rs.getString("cep"));
                                         cliente.setDdd(rs.getString("ddd"));
                                         cliente.setTelefone(rs.getString("telefone"));
@@ -51,7 +54,7 @@ public class DaoCliente {
     public void inserir(Cliente cliente) {
         PreparedStatement ps;
         try {
-            ps = conn.prepareStatement("INSERT INTO TB_CLIENTE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
+            ps = conn.prepareStatement("INSERT INTO TB_CLIENTE VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             ps.setString(1, cliente.getCpf());
             ps.setString(2, cliente.getNome());

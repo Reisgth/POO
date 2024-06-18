@@ -11,6 +11,14 @@ public class Pessoa {
         this.nome = nome;
     }
 
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
