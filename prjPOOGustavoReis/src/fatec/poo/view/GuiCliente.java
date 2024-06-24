@@ -6,6 +6,7 @@ import fatec.poo.model.Cliente;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * @author Gustavo Reis
@@ -247,9 +248,9 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        prepCon = new PreparaConexao("GUSTAVOREIS", "123456");
+        prepCon = new PreparaConexao("BD1821041", "BD1821041");
         prepCon.setDriver("oracle.jdbc.driver.OracleDriver");
-        prepCon.setConnectionString("jdbc:oracle:thin:@10.12.20.228:1521:xe");
+        prepCon.setConnectionString("jdbc:oracle:thin:@192.168.1.6:1521:xe");
 
         daoCliente = new DaoCliente(prepCon.abrirConexao());
     }//GEN-LAST:event_formWindowOpened
@@ -261,55 +262,58 @@ public class GuiCliente extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         cliente = null;
         
-        cliente = daoCliente.consultar(txtCpf.getText());
+        if(txtCpf.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite o CPF");
+        }        
+        else {
+            cliente = daoCliente.consultar(txtCpf.getText());
+             
+            if (cliente == null) {//não encontrou o objeto na BD
 
-        if (cliente == null) {//não encontrou o objeto na BD
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(true);
+                txtEndereco.setEnabled(true);
+                txtCidade.setEnabled(true);
+                txtDdd.setEnabled(true);
+                txtTelefone.setEnabled(true);
+                txtLimCred.setEnabled(true);
+                txtCep.setEnabled(true);
+                cbxUf.setEnabled(true);
 
-            txtCpf.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtEndereco.setEnabled(true);
-            txtCidade.setEnabled(true);
-            txtDdd.setEnabled(true);
-            txtTelefone.setEnabled(true);
-            txtLimCred.setEnabled(true);
-            txtCep.setEnabled(true);
-            cbxUf.setEnabled(true);
+                txtNome.requestFocus();
 
-            txtNome.requestFocus();
+                btnConsultar.setEnabled(false);
+                btnAlterar.setEnabled(false);
+                btnIncluir.setEnabled(true);
+                btnExcluir.setEnabled(false);
+            } else { //encontrou o objeto na BD
+                txtNome.setText(cliente.getNome());
+                txtEndereco.setText(cliente.getEndereco());
+                txtCidade.setText(cliente.getCidade());
+                txtDdd.setText(cliente.getDdd());
+                txtTelefone.setText(cliente.getTelefone());
+                txtLimCred.setText(Double.toString(cliente.getLimiteCredito()));
+                lblLimDisp.setText(Double.toString(cliente.getLimiteDisponivel()));
+                txtCep.setText(cliente.getCep());
+                cbxUf.setSelectedItem(cliente.getUf());
 
-            btnConsultar.setEnabled(false);
-            btnAlterar.setEnabled(false);
-            btnIncluir.setEnabled(true);
-            btnExcluir.setEnabled(false);
-            
-        } else { //encontrou o objeto na BD
-            
-            txtNome.setText(cliente.getNome());
-            txtEndereco.setText(cliente.getEndereco());
-            txtCidade.setText(cliente.getCidade());
-            txtDdd.setText(cliente.getDdd());
-            txtTelefone.setText(cliente.getTelefone());
-            txtLimCred.setText(Double.toString(cliente.getLimiteCredito()));
-            lblLimDisp.setText(Double.toString(cliente.getLimiteDisponivel()));
-            txtCep.setText(cliente.getCep());
-            cbxUf.setSelectedItem(cliente.getUf());
-            
-            txtCpf.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtEndereco.setEnabled(true);
-            txtCidade.setEnabled(true);
-            txtDdd.setEnabled(true);
-            txtTelefone.setEnabled(true);
-            txtLimCred.setEnabled(true);
-            txtCep.setEnabled(true);
-            cbxUf.setEnabled(true);
-            
-            txtNome.requestFocus();
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(true);
+                txtEndereco.setEnabled(true);
+                txtCidade.setEnabled(true);
+                txtDdd.setEnabled(true);
+                txtTelefone.setEnabled(true);
+                txtLimCred.setEnabled(true);
+                txtCep.setEnabled(true);
+                cbxUf.setEnabled(true);
 
-            btnConsultar.setEnabled(false);
-            btnAlterar.setEnabled(true);
-            btnIncluir.setEnabled(false);
-            btnExcluir.setEnabled(true);
+                txtNome.requestFocus();
+
+                btnConsultar.setEnabled(false);
+                btnAlterar.setEnabled(true);
+                btnIncluir.setEnabled(false);
+                btnExcluir.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
@@ -400,7 +404,11 @@ public class GuiCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-                   
+         
+        int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir esse Cliente?", "Excluir", JOptionPane.YES_NO_OPTION);
+        
+        if(excluir == JOptionPane.YES_OPTION)
+        {
             daoCliente.excluir(cliente);
 
             txtCpf.setText("");
@@ -430,6 +438,7 @@ public class GuiCliente extends javax.swing.JFrame {
             btnAlterar.setEnabled(false);
             btnIncluir.setEnabled(false);
             btnExcluir.setEnabled(false);
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

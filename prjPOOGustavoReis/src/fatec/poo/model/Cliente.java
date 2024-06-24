@@ -22,9 +22,13 @@ public class Cliente extends Pessoa {
     public void addPedido(Pedido p) {
         pedidos.add(p);
         p.setCliente(this);
+        
+        this.limiteDisponivel -= p.getValor();
     }
     
     public void removePedido(Pedido p) {
+        this.limiteDisponivel += p.getValor();
+        
         pedidos.remove(p);
         p.setCliente(null);
     }

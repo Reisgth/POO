@@ -3,6 +3,7 @@ package fatec.poo.view;
 import fatec.poo.control.DaoVendedor;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Vendedor;
+import javax.swing.JOptionPane;
 
 /**
  * @author Gustavo Reis
@@ -247,57 +248,62 @@ public class GuiVendedor extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         vendedor = null;
         
-        vendedor = daoVendedor.consultar(txtCpf.getText());
+        if(txtCpf.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite o CPF");
+        }        
+        else {
+             vendedor = daoVendedor.consultar(txtCpf.getText());
+             
+            if (vendedor == null) {//não encontrou o objeto na BD
 
-        if (vendedor == null) {//não encontrou o objeto na BD
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(true);
+                txtEndereco.setEnabled(true);
+                txtCidade.setEnabled(true);
+                txtDdd.setEnabled(true);
+                txtTelefone.setEnabled(true);
+                txtSalBase.setEnabled(true);
+                txtTaxaComissao.setEnabled(true);
+                txtCep.setEnabled(true);
+                cbxUf.setEnabled(true);
 
-            txtCpf.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtEndereco.setEnabled(true);
-            txtCidade.setEnabled(true);
-            txtDdd.setEnabled(true);
-            txtTelefone.setEnabled(true);
-            txtSalBase.setEnabled(true);
-            txtTaxaComissao.setEnabled(true);
-            txtCep.setEnabled(true);
-            cbxUf.setEnabled(true);
-            
-            txtNome.requestFocus();
+                txtNome.requestFocus();
 
-            btnConsultar.setEnabled(false);
-            btnAlterar.setEnabled(false);
-            btnIncluir.setEnabled(true);
-            btnExcluir.setEnabled(false);
-            
-        } else { //encontrou o objeto na BD
-            
-            txtNome.setText(vendedor.getNome());
-            txtEndereco.setText(vendedor.getEndereco());
-            txtCidade.setText(vendedor.getCidade());
-            txtDdd.setText(vendedor.getDdd());
-            txtTelefone.setText(vendedor.getTelefone());
-            txtSalBase.setText(Double.toString(vendedor.getSalarioBase()));
-            txtTaxaComissao.setText(Double.toString(vendedor.getTaxaComissao()));
-            txtCep.setText(vendedor.getCep());
-            cbxUf.setSelectedItem(vendedor.getUf());
-            
-            txtCpf.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtEndereco.setEnabled(true);
-            txtCidade.setEnabled(true);
-            txtDdd.setEnabled(true);
-            txtTelefone.setEnabled(true);
-            txtSalBase.setEnabled(true);
-            txtTaxaComissao.setEnabled(true);
-            txtCep.setEnabled(true);
-            cbxUf.setEnabled(true);
-            
-            txtNome.requestFocus();
+                btnConsultar.setEnabled(false);
+                btnAlterar.setEnabled(false);
+                btnIncluir.setEnabled(true);
+                btnExcluir.setEnabled(false);
 
-            btnConsultar.setEnabled(false);
-            btnAlterar.setEnabled(true);
-            btnIncluir.setEnabled(false);
-            btnExcluir.setEnabled(true);
+            } else { //encontrou o objeto na BD
+
+                txtNome.setText(vendedor.getNome());
+                txtEndereco.setText(vendedor.getEndereco());
+                txtCidade.setText(vendedor.getCidade());
+                txtDdd.setText(vendedor.getDdd());
+                txtTelefone.setText(vendedor.getTelefone());
+                txtSalBase.setText(Double.toString(vendedor.getSalarioBase()));
+                txtTaxaComissao.setText(Double.toString(vendedor.getTaxaComissao()));
+                txtCep.setText(vendedor.getCep());
+                cbxUf.setSelectedItem(vendedor.getUf());
+
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(true);
+                txtEndereco.setEnabled(true);
+                txtCidade.setEnabled(true);
+                txtDdd.setEnabled(true);
+                txtTelefone.setEnabled(true);
+                txtSalBase.setEnabled(true);
+                txtTaxaComissao.setEnabled(true);
+                txtCep.setEnabled(true);
+                cbxUf.setEnabled(true);
+
+                txtNome.requestFocus();
+
+                btnConsultar.setEnabled(false);
+                btnAlterar.setEnabled(true);
+                btnIncluir.setEnabled(false);
+                btnExcluir.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
@@ -390,7 +396,11 @@ public class GuiVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-
+        
+        int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir esse Vendedor?", "Excluir", JOptionPane.YES_NO_OPTION);
+        
+        if(excluir == JOptionPane.YES_OPTION)
+        {
             daoVendedor.excluir(vendedor);
              
             txtCpf.setText("");
@@ -421,12 +431,13 @@ public class GuiVendedor extends javax.swing.JFrame {
             btnAlterar.setEnabled(false);
             btnIncluir.setEnabled(false);
             btnExcluir.setEnabled(false);
+        } 
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        prepCon = new PreparaConexao("GUSTAVOREIS", "123456");
+        prepCon = new PreparaConexao("BD1821041", "BD1821041");
         prepCon.setDriver("oracle.jdbc.driver.OracleDriver");
-        prepCon.setConnectionString("jdbc:oracle:thin:@10.12.20.228:1521:xe");
+        prepCon.setConnectionString("jdbc:oracle:thin:@192.168.1.6:1521:xe");
 
         daoVendedor = new DaoVendedor(prepCon.abrirConexao());
     }//GEN-LAST:event_formWindowOpened

@@ -7,6 +7,8 @@ import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Cliente;
 import fatec.poo.model.Pedido;
 import fatec.poo.model.Vendedor;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  * @author Gustavo Reis
@@ -225,9 +227,9 @@ public class GuiPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        prepCon = new PreparaConexao("GUSTAVOREIS", "123456");
+        prepCon = new PreparaConexao("BD1821041", "BD1821041");
         prepCon.setDriver("oracle.jdbc.driver.OracleDriver");
-        prepCon.setConnectionString("jdbc:oracle:thin:@10.12.20.228:1521:xe");
+        prepCon.setConnectionString("jdbc:oracle:thin:@192.168.1.6:1521:xe");
 
         daoPedido = new DaoPedido(prepCon.abrirConexao());
         daoCliente = new DaoCliente(prepCon.abrirConexao());
@@ -242,10 +244,13 @@ public class GuiPedido extends javax.swing.JFrame {
         pedido = null;
         cliente = null;
         vendedor = null;
-
-        pedido = daoPedido.consultar(txtNumero.getText());
-        
-        if (pedido == null) {//não encontrou o objeto na BD
+         if(txtNumero.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite o Numero do Pedido");
+        }        
+        else {
+            pedido = daoPedido.consultar(txtNumero.getText());
+            
+            if (pedido == null) {//não encontrou o objeto na BD
 
             txtNumero.setEnabled(false);
             txtDataEmissao.setEnabled(true);
@@ -262,34 +267,34 @@ public class GuiPedido extends javax.swing.JFrame {
             btnConsultarCliente.setEnabled(true);
 
         } else { //encontrou o objeto na BD
-            
-            cliente = daoCliente.consultar(pedido.getCliente().getCpf());
-            vendedor = daoVendedor.consultar(pedido.getVendedor().getCpf());
+                cliente = daoCliente.consultar(pedido.getCliente().getCpf());
+                vendedor = daoVendedor.consultar(pedido.getVendedor().getCpf());
 
-            txtNumero.setText(pedido.getNumero());
-            txtDataEmissao.setText(pedido.getDataEmissao());
-            txtValor.setText(Double.toString(pedido.getValor()));
-            txtCpfCli.setText(cliente.getCpf());
-            txtCpfVend.setText(vendedor.getCpf());
-                        
-            lblNomeCli.setText(cliente.getNome());
-            lblNomeVend.setText(vendedor.getNome());
+                txtNumero.setText(pedido.getNumero());
+                txtDataEmissao.setText(pedido.getDataEmissao());
+                txtValor.setText(Double.toString(pedido.getValor()));
+                txtCpfCli.setText(cliente.getCpf());
+                txtCpfVend.setText(vendedor.getCpf());
 
-            txtNumero.setEnabled(false);
-            txtDataEmissao.setEnabled(true);
-            txtValor.setEnabled(true);
-            txtCpfCli.setEnabled(true);
-            txtCpfVend.setEnabled(true);
+                lblNomeCli.setText(cliente.getNome());
+                lblNomeVend.setText(vendedor.getNome());
 
-            txtDataEmissao.requestFocus();
+                txtNumero.setEnabled(false);
+                txtDataEmissao.setEnabled(true);
+                txtValor.setEnabled(true);
+                txtCpfCli.setEnabled(true);
+                txtCpfVend.setEnabled(true);
 
-            btnConsultar.setEnabled(false);
-            btnAlterar.setEnabled(true);
-            btnIncluir.setEnabled(false);
-            btnExcluir.setEnabled(true);
-            
-            btnConsultarCliente.setEnabled(true);
-            btnConsultarVendedor.setEnabled(true);
+                txtDataEmissao.requestFocus();
+
+                btnConsultar.setEnabled(false);
+                btnAlterar.setEnabled(true);
+                btnIncluir.setEnabled(false);
+                btnExcluir.setEnabled(true);
+
+                btnConsultarCliente.setEnabled(true);
+                btnConsultarVendedor.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
@@ -302,8 +307,14 @@ public class GuiPedido extends javax.swing.JFrame {
         
         pedido.setCliente(cliente);
         pedido.setVendedor(vendedor);
-        
+            
         daoPedido.inserir(pedido);
+        
+        cliente.addPedido(pedido);
+        vendedor.addPedido(pedido);
+        
+        daoCliente.alterar(cliente);
+        daoVendedor.alterar(vendedor);
         
         txtNumero.setText("");
         txtDataEmissao.setText("");
@@ -338,8 +349,16 @@ public class GuiPedido extends javax.swing.JFrame {
               
         pedido.setCliente(cliente);
         pedido.setVendedor(vendedor);
+              
+        cliente.removePedido(pedido);
+        cliente.addPedido(pedido);
+        
+        vendedor.removePedido(pedido);
+        vendedor.addPedido(pedido);
         
         daoPedido.alterar(pedido);
+        daoCliente.alterar(cliente);
+        daoVendedor.alterar(vendedor);
         
         txtNumero.setText("");
         txtDataEmissao.setText("");
@@ -367,55 +386,77 @@ public class GuiPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-              
-        daoPedido.excluir(pedido);
         
-        txtNumero.setText("");
-        txtDataEmissao.setText("");
-        txtValor.setText("");
-        txtCpfCli.setText("");
-        txtCpfVend.setText("");
-        lblNomeCli.setText("");
-        lblNomeVend.setText("");
+        int excluir = JOptionPane.showConfirmDialog(null, "Deseja excluir esse pedido?", "Excluir", JOptionPane.YES_NO_OPTION);
+        
+        if(excluir == JOptionPane.YES_OPTION)
+        {
+            daoPedido.excluir(pedido);
+            
+            cliente.removePedido(pedido);
+            vendedor.removePedido(pedido);
+            
+            daoCliente.alterar(cliente);
+            daoVendedor.alterar(vendedor);
+        
+            txtNumero.setText("");
+            txtDataEmissao.setText("");
+            txtValor.setText("");
+            txtCpfCli.setText("");
+            txtCpfVend.setText("");
+            lblNomeCli.setText("");
+            lblNomeVend.setText("");
 
-        txtNumero.setEnabled(true);
-        txtDataEmissao.setEnabled(false);
-        txtValor.setEnabled(false);
-        txtCpfCli.setEnabled(false);
-        txtCpfVend.setEnabled(false);
-        
-        txtNumero.requestFocus();
+            txtNumero.setEnabled(true);
+            txtDataEmissao.setEnabled(false);
+            txtValor.setEnabled(false);
+            txtCpfCli.setEnabled(false);
+            txtCpfVend.setEnabled(false);
 
-        btnConsultar.setEnabled(true);
-        btnAlterar.setEnabled(false);
-        btnIncluir.setEnabled(false);
-        btnExcluir.setEnabled(false);
-        
-        btnConsultarCliente.setEnabled(false);
-        btnConsultarVendedor.setEnabled(false);
+            txtNumero.requestFocus();
+
+            btnConsultar.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnIncluir.setEnabled(false);
+            btnExcluir.setEnabled(false);
+
+            btnConsultarCliente.setEnabled(false);
+            btnConsultarVendedor.setEnabled(false);
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarClienteActionPerformed
+        
         cliente = daoCliente.consultar(txtCpfCli.getText());
         
-        lblNomeCli.setText(cliente.getNome());
+        if(cliente == null){
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado, reveja o CPF e busque novamente");
+        }        
+        else {
+            lblNomeCli.setText(cliente.getNome());
         
-        txtCpfCli.setEnabled(false);
-        btnConsultarCliente.setEnabled(false);
-        
-        txtCpfVend.setEnabled(true);
-        btnConsultarVendedor.setEnabled(true);
+            txtCpfCli.setEnabled(false);
+            btnConsultarCliente.setEnabled(false);
+
+            txtCpfVend.setEnabled(true);
+            btnConsultarVendedor.setEnabled(true);
+        }
     }//GEN-LAST:event_btnConsultarClienteActionPerformed
 
     private void btnConsultarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarVendedorActionPerformed
         vendedor = daoVendedor.consultar(txtCpfVend.getText());
         
-        lblNomeVend.setText(vendedor.getNome());
+        if(cliente == null){
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado, reveja o CPF e busque novamente");
+        }        
+        else {
+            lblNomeVend.setText(vendedor.getNome());
         
-        txtCpfVend.setEnabled(false);
-        btnConsultarVendedor.setEnabled(false);
-        
-        btnIncluir.setEnabled(true);
+            txtCpfVend.setEnabled(false);
+            btnConsultarVendedor.setEnabled(false);
+
+            btnIncluir.setEnabled(true);
+        }
     }//GEN-LAST:event_btnConsultarVendedorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
